@@ -28,7 +28,7 @@ target_link_libraries(Bird
   m
 )
 
-option(BUILD_TESTS "Build Test Suite" OFF)
+option(BUILD_TESTS "Build Test Suite" ON)
 
 if(BUILD_TESTS)
   add_subdirectory(./test)

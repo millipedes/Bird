@@ -67,7 +67,7 @@ TranslationState write_canvas_to_png(const Canvas * c, const char * file_name) {
   return result;
 }
 
-TranslationState read_png_to_canvas(Canvas * c, const char * file_name) {
+TranslationState read_png_to_canvas(Canvas * c, Matrix ctm, const char * file_name) {
   FILE *fp = fopen(file_name, "rb");
   unsigned char header[PNG_HEADER_SIZE] = {0};
   size_t number = PNG_HEADER_SIZE;
@@ -127,7 +127,7 @@ TranslationState read_png_to_canvas(Canvas * c, const char * file_name) {
   *c = init_canvas(channels == 3
       ? (Pixel){.rgb = {0, 0, 0}}
       : (Pixel){.rgba = {0, 0, 0, 0}},
-      width, height, channels);
+      width, height, channels, ctm);
 
   for (int i = 0; i < c->len_y; i++) {
     png_bytep row = (png_bytep)malloc(png_get_rowbytes(png_ptr, info_ptr));

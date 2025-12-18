@@ -50,10 +50,18 @@ Matrix affine_translate(double x, double y) {
   }};
 }
 
-Matrix affine_reflect() {
+Matrix affine_reflect_x() {
   return (Matrix){{
     {-1, 0, 0},
     {0,  1, 0},
+    {0,  0, 1}
+  }};
+}
+
+Matrix affine_reflect_y() {
+  return (Matrix){{
+    {1,  0, 0},
+    {0, -1, 0},
     {0,  0, 1}
   }};
 }
@@ -66,8 +74,11 @@ Matrix affine_scale(double x, double y) {
   }};
 }
 
-// double degrees_to_radians(double theta) { return theta * M_PI / 180.0; }
-double degrees_to_radians(double theta) { return theta * 3.14 / 180.0; }
+// Not standard in math?
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+double degrees_to_radians(double theta) { return theta * M_PI / 180.0; }
 
 Matrix affine_rotate(double theta) {
   return (Matrix){{

@@ -3,7 +3,11 @@
 
 #include <stdint.h>
 
-#include "bezier.h"
+#include "matrix3d.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct RGBA_PIXEL_T {
   uint8_t r;
@@ -25,13 +29,19 @@ typedef union {
 
 typedef struct CAVNAS_T {
   Pixel ** points;
+  // coordinate transform matrix
+  Matrix ctm;
   uint32_t len_x;
   uint32_t len_y;
   uint8_t no_channels;
 } Canvas;
 
-Canvas init_canvas(Pixel p, uint32_t len_x, uint32_t len_y, uint8_t no_channels);
-Canvas draw_bezier(Canvas c, const Bezier * curve);
+Canvas init_canvas(Pixel p, uint32_t len_x, uint32_t len_y, uint8_t no_channels,
+    Matrix ctm);
 Canvas free_canvas(Canvas c);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

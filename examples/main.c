@@ -29,38 +29,40 @@ int main(void) {
   // free_canvas(c1);
   // free_canvas(c2);
 
-  // Ellipse e = init_ellipse(100, 100, 200, 200);
-  // printf("%f %f\n", e.curves[0].p0.x, e.curves[0].p0.y);
-  // printf("%f %f\n", e.curves[0].p1.x, e.curves[0].p1.y);
-  // printf("%f %f\n", e.curves[0].p2.x, e.curves[0].p2.y);
-  // printf("%f %f\n", e.curves[0].p3.x, e.curves[0].p3.y);
-  // printf("%f %f\n", e.curves[1].p0.x, e.curves[1].p0.y);
-  // printf("%f %f\n", e.curves[1].p1.x, e.curves[1].p1.y);
-  // printf("%f %f\n", e.curves[1].p2.x, e.curves[1].p2.y);
-  // printf("%f %f\n", e.curves[1].p3.x, e.curves[1].p3.y);
-  // printf("%f %f\n", e.curves[2].p0.x, e.curves[2].p0.y);
-  // printf("%f %f\n", e.curves[2].p1.x, e.curves[2].p1.y);
-  // printf("%f %f\n", e.curves[2].p2.x, e.curves[2].p2.y);
-  // printf("%f %f\n", e.curves[2].p3.x, e.curves[2].p3.y);
-  // printf("%f %f\n", e.curves[3].p0.x, e.curves[3].p0.y);
-  // printf("%f %f\n", e.curves[3].p1.x, e.curves[3].p1.y);
-  // printf("%f %f\n", e.curves[3].p2.x, e.curves[3].p2.y);
-  // printf("%f %f\n", e.curves[3].p3.x, e.curves[3].p3.y);
-  // printf("%f\n", KAPPA);
-  // Canvas c = init_canvas((Pixel){.rgba = {0, 0, 0, 255}}, 1200, 800, 4);
-  // c = draw_bezier(c, &e.curves[0]);
-  // c = draw_bezier(c, &e.curves[1]);
-  // c = draw_bezier(c, &e.curves[2]);
-  // c = draw_bezier(c, &e.curves[3]);
-  // // c.points[500][500] = (Pixel){.rgba = {0, 255, 0, 255}};
-  // // c.points[501][501] = (Pixel){.rgba = {0, 255, 0, 255}};
-  // // c.points[502][502] = (Pixel){.rgba = {0, 255, 0, 255}};
-  // // c.points[503][503] = (Pixel){.rgba = {0, 255, 0, 255}};
-  // TranslationState ts_1 = write_canvas_to_png(&c, "test1.png");
-  // if (ts_1.state != SUCCESS) {
-  //   printf("%s\n", ts_1.msg);
-  // }
+  /****************************************************************************/
+  /************************Example 1 Ellipse***********************************/
+  /****************************************************************************/
+  Ellipse e = init_ellipse(1.0, 1.0, 0.0, 0.0);
+  Canvas c = init_canvas((Pixel){.rgba = {0, 0, 0, 255}}, 1200, 800, 4,
+     multiply_matrices(2,
+       affine_translate(600.0, 400.0),
+       affine_scale(40.0, 40.0)));
+  for (uint8_t i = 0; i < 4; i++) {
+    for (double t = 0; t < 1.0; t += 0.0001) {
+      Point world_space = evaluate_bezier(&e.curves[i], t);
+      Point canvas_space = exploit_point_mult(c.ctm, world_space);
+      c.points[(int)canvas_space.y][(int)canvas_space.x] = (Pixel){.rgba = {0, 255, 0, 255}};
+    }
+  }
 
-  // free_canvas(c);
+  for (int dx = -2; dx <= 2; dx++) {
+    int x = 600 + dx;
+    for (int y = 0; y < 800; y++) {
+      c.points[y][x] = (Pixel){.rgba = {0, 255, 0, 255}};
+    }
+  }
+  for (int dy = -2; dy <= 2; dy++) {
+    int y = 400 + dy;
+    for (int x = 0; x < 1200; x++) {
+      c.points[y][x] = (Pixel){.rgba = {0, 255, 0, 255}};
+    }
+  }
+
+  TranslationState ts_1 = write_canvas_to_png(&c, "test1.png");
+  if (ts_1.state != SUCCESS) {
+    printf("%s\n", ts_1.msg);
+  }
+
+  free_canvas(c);
   return 0;
 }
