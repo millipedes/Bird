@@ -2,6 +2,14 @@
 
 #include <math.h>
 
+bool point_eq(const Point a, const Point b) {
+  return a.x == b.x && a.y == b.y;
+}
+
+bool point_eq_int(const Point a, const Point b) {
+  return (int)a.x == (int)b.x && (int)a.y == (int)b.y;
+}
+
 Matrix exploit_matrix_mult(const Matrix m1, const Matrix m2) {
   return (Matrix){{
     {

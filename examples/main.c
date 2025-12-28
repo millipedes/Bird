@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "core/ellipse.h"
+#include "core/shape.h"
 #include "core/canvas.h"
 #include "impl/png_translation.h"
 
@@ -37,13 +37,14 @@ int main(void) {
      multiply_matrices(2,
        affine_translate(600.0, 400.0),
        affine_scale(40.0, 40.0)));
-  for (uint8_t i = 0; i < 4; i++) {
-    for (double t = 0; t < 1.0; t += 0.0001) {
-      Point world_space = evaluate_bezier(&e.curves[i], t);
-      Point canvas_space = exploit_point_mult(c.ctm, world_space);
-      c.points[(int)canvas_space.y][(int)canvas_space.x] = (Pixel){.rgba = {0, 255, 0, 255}};
-    }
-  }
+  Shape s = {.value = e, .type = ELLIPSE };
+  // for (uint8_t i = 0; i < 4; i++) {
+  //   for (double t = 0; t < 1.0; t += 0.0001) {
+  //     Point world_space = evaluate_bezier(&e.curves[i], t);
+  //     Point canvas_space = exploit_point_mult(c.ctm, world_space);
+  //     c.points[(int)canvas_space.y][(int)canvas_space.x] = (Pixel){.rgba = {0, 255, 0, 255}};
+  //   }
+  // }
 
   for (int dx = -2; dx <= 2; dx++) {
     int x = 600 + dx;
@@ -57,12 +58,14 @@ int main(void) {
       c.points[y][x] = (Pixel){.rgba = {0, 255, 0, 255}};
     }
   }
+  c = draw_shape(c, s, (Pixel){.rgb={0,0,0}});
 
   TranslationState ts_1 = write_canvas_to_png(&c, "test1.png");
   if (ts_1.state != SUCCESS) {
     printf("%s\n", ts_1.msg);
   }
 
+  // free_ellipse(e);
   free_canvas(c);
   return 0;
 }

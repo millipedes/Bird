@@ -2,6 +2,7 @@
 #define MATRIX_H
 
 #include <stdarg.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -12,6 +13,9 @@ typedef struct POINT_T {
   double x;
   double y;
 } Point;
+
+bool point_eq(const Point a, const Point b);
+bool point_eq_int(const Point a, const Point b);
 
 typedef struct {
   double m[3][3];

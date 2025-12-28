@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include "matrix3d.h"
+#include "shape.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,7 +30,7 @@ typedef union {
 
 typedef struct CAVNAS_T {
   Pixel ** points;
-  // coordinate transform matrix
+  // coordinate transform matrix world -> viewing
   Matrix ctm;
   uint32_t len_x;
   uint32_t len_y;
@@ -38,6 +39,7 @@ typedef struct CAVNAS_T {
 
 Canvas init_canvas(Pixel p, uint32_t len_x, uint32_t len_y, uint8_t no_channels,
     Matrix ctm);
+Canvas draw_shape(Canvas c, Shape s, Pixel color);
 Canvas free_canvas(Canvas c);
 
 #ifdef __cplusplus

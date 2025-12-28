@@ -9,12 +9,15 @@
 extern "C" {
 #endif
 
+#define QTY_ELLIPSE_CURVES 4
+
 typedef struct ELLIPSE_T {
-  Bezier curves[4];
+  Bezier curves[QTY_ELLIPSE_CURVES];
 } Ellipse;
 
 Ellipse init_ellipse(uint32_t x_len, uint32_t y_len, uint32_t x_center,
     uint32_t y_center);
+void free_ellipse(Ellipse e);
 
 #ifdef __cplusplus
 }

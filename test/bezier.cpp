@@ -13,6 +13,7 @@ TEST(bezier_line_integral, increments_0) {
     auto line_integral = line_integral_unormalized(&e.curves[i], normalize_factor, 1.0, 0.0);
     ASSERT_NEAR(line_integral, normalized_integral, delta_factor);
   }
+  free_ellipse(e);
 }
 
 TEST(bezier_line_integral, increments_1) {
@@ -24,6 +25,7 @@ TEST(bezier_line_integral, increments_1) {
     line_integral += line_integral_unormalized(&e.curves[i], normalize_factor, 1.0, 0.5);
     ASSERT_NEAR(line_integral, normalized_integral, delta_factor);
   }
+  free_ellipse(e);
 }
 
 TEST(bezier_line_integral, increments_2) {
@@ -36,6 +38,7 @@ TEST(bezier_line_integral, increments_2) {
     line_integral += line_integral_unormalized(&e.curves[i], normalize_factor, 1.0, 0.66);
     ASSERT_NEAR(line_integral, normalized_integral, delta_factor);
   }
+  free_ellipse(e);
 }
 
 TEST(bezier_line_integral, increments_3) {
@@ -49,6 +52,7 @@ TEST(bezier_line_integral, increments_3) {
     line_integral += line_integral_unormalized(&e.curves[i], normalize_factor, 1.0, 0.75);
     ASSERT_NEAR(line_integral, normalized_integral, delta_factor);
   }
+  free_ellipse(e);
 }
 
 TEST(bezier_line_integral, increments_4) {
@@ -62,4 +66,5 @@ TEST(bezier_line_integral, increments_4) {
     }
     ASSERT_NEAR(line_integral, normalized_integral, delta_factor);
   }
+  free_ellipse(e);
 }

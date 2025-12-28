@@ -20,9 +20,15 @@ Ellipse init_ellipse(uint32_t x_len, uint32_t y_len, uint32_t x_center,
   Matrix total_affine_transform = multiply_matrices(2,
       affine_translate(x_center, y_center),
       affine_scale(x_len, y_len));
-  for (uint8_t i = 0; i < 4; i++) {
-    result.curves[i] = bezier_affine_transform(&result.curves[i],
+  for (uint8_t i = 0; i < QTY_ELLIPSE_CURVES; i++) {
+    result.curves[i] = bezier_affine_transform(result.curves[i],
         total_affine_transform);
   } 
   return result;
+}
+
+void free_ellipse(Ellipse e) {
+  for (uint8_t i = 0; i < QTY_ELLIPSE_CURVES; i++) {
+    free_bezier(e.curves[i]);
+  }
 }
